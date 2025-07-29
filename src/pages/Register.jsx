@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import {Link, useNavigate } from "react-router-dom";
 
 
 function Register() {
@@ -45,8 +45,25 @@ const handleSubmit = (e) => {
 
 
   return (
+
+    <>
+    <div className="flex flex-col min-h-screen">
+    {/* Navbar */}
+    <header className="sticky top-0 bg-white shadow z-10">
+      <nav className="bg-cyan-900 shadow p-4 flex justify-between items-center">
+        <Link to="/" className="text-2xl font-bold text-white">
+          Neighborhood Connect
+        </Link>
+        <Link to="/" className=" text-xl text-white hover:underline">
+          Back to Home
+        </Link>
+      </nav>
+    </header>
+      <hr />
+
+
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 w-full max-w-md">
+      <div className="bg-white text-cyan-900 shadow-md rounded px-8 pt-6 pb-8 w-full max-w-md">
         <h2 className="text-2xl font-bold mb-4 text-center">Register</h2>
 
         {message && <p className="text-center mb-4">{message}</p>}
@@ -96,10 +113,10 @@ const handleSubmit = (e) => {
             name="neighborhood"
             value={formData.neighborhood}
             onChange={handleChange}
-            className="w-full border px-3 py-2 rounded"
+            className="w-full border px-3 py-2 rounded "
             required
           >
-            <option value="">Select Neighborhood</option>
+            <option value=" " >Select Neighborhood</option>
             {neighborhoods.map((n) => (
               <option key={n.id} value={n.id}>
                 {n.name}
@@ -109,20 +126,22 @@ const handleSubmit = (e) => {
 
           <button
             type="submit"
-            className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
+            className="w-full bg-cyan-900 text-white py-2 rounded hover:bg-cyan-700"
           >
             Register
           </button>
         </form>
 
-        <p className="text-center mt-4 text-sm">
+        <p className="text-cyan-900 text-center mt-4 text-sm">
           Already have an account?{" "}
-          <a href="/login" className="text-blue-500 hover:underline">
+          <a href="/login" className="text-cyan-800 hover:underline">
             Login
           </a>
         </p>
       </div>
     </div>
+    </div>
+    </>
   );
 }
 export default Register;

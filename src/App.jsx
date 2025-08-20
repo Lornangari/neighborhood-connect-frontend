@@ -10,6 +10,7 @@ import Footer from "./components/Footer";
 // Dashboard layout and feature pages
 import DashboardLayout from "./pages/dashboard/DashboardLayout";
 import Homed from "./pages/dashboard/Homed";
+import Announcements from "./pages/dashboard/Announcements";
 import Profile from "./pages/dashboard/Profile";
 import Posts from "./pages/dashboard/Posts";
 import Events from "./pages/dashboard/Events"; 
@@ -41,8 +42,8 @@ function MainLayout() {
         {/* Dashboard layout with nested routes */}
         <Route path="/dashboard" element={<DashboardLayout />}>
           <Route index element={<Homed />} />
+          <Route path="announcements" element={<Announcements />} />
           <Route path="profile" element={<Profile />} />
-
           <Route path="posts" element={<Posts />} />
           <Route path="events" element={<Events />} />
         </Route>

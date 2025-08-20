@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaBell } from "react-icons/fa";
 import { useAuth } from "../context/UseAuth"; 
+import DarkModeToggle from './DarkModeToggle'
 
 const Navbar = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -21,6 +22,7 @@ const Navbar = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
 
   const getInitial = (name) => name?.charAt(0).toUpperCase() || "?";
 
@@ -67,15 +69,19 @@ const Navbar = () => {
                   View Profile
                 </button>
 
-                <button
+                 <div className="px-4 py-2 border-t border-gray-100 dark:border-gray-700">
+                  <DarkModeToggle />
+                </div>
+
+                {/* <button
                   onClick={() => {
                     setDropdownOpen(false);
-                    alert("Dark mode coming soon!");
+                    <DarkModeToggle />
                   }}
                   className="w-full text-left px-4 py-2 hover:bg-cyan-50 text-cyan-900 text-sm"
                 >
                   Dark Mode
-                </button>
+                </button> */}
 
                 <button
                   onClick={handleLogout}

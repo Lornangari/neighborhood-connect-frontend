@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useAuth } from "../context/UseAuth.jsx"; 
+import { useAuth } from "../context/UseAuth.jsx";
 
 function Login() {
   const [formData, setFormData] = useState({ username: "", password: "" });
@@ -23,13 +23,14 @@ function Login() {
     }
 
     try {
+      
       const response = await axios.post("http://127.0.0.1:8000/api/token/", formData);
 
-      // Store only the correct tokens
+      
       localStorage.setItem("access", response.data.access);
       localStorage.setItem("refresh", response.data.refresh);
 
-      // Fetch user info using the access token
+      // Fetch logged-in user info with access token
       const userRes = await axios.get("http://127.0.0.1:8000/api/user/me/", {
         headers: { Authorization: `Bearer ${response.data.access}` },
       });
@@ -63,7 +64,11 @@ function Login() {
         <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
           <h2 className="text-2xl text-cyan-900 font-bold mb-6 text-center">Login</h2>
 
-          {error && <div className="bg-red-100 text-red-700 p-2 rounded mb-4 text-sm">{error}</div>}
+          {error && (
+            <div className="bg-red-100 text-red-700 p-2 rounded mb-4 text-sm">
+              {error}
+            </div>
+          )}
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>

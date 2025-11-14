@@ -30,6 +30,9 @@ function Login() {
       localStorage.setItem("access", response.data.access);
       localStorage.setItem("refresh", response.data.refresh);
 
+      //  Set Authorization header globally after login
+      axios.defaults.headers.common["Authorization"] = `Bearer ${response.data.access}`;
+
       // Fetch logged-in user info with access token
       const userRes = await axios.get("http://127.0.0.1:8000/api/user/me/", {
         headers: { Authorization: `Bearer ${response.data.access}` },

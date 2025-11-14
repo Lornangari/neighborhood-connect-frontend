@@ -16,13 +16,11 @@ const Navbar = () => {
         setDropdownOpen(false);
       }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-
 
   const getInitial = (name) => name?.charAt(0).toUpperCase() || "?";
 
@@ -37,28 +35,32 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="bg-white sticky top-0 z-50 shadow-md px-4 py-3 flex items-center justify-between">
+      <nav className="bg-white/95 backdrop-blur-md sticky top-0 z-50 shadow-md px-4 py-3 flex items-center justify-between border-b border-cyan-100">
         {/* Logo */}
         <Link to="/" className="flex items-center space-x-2">
-          <div className="text-2xl font-bold text-cyan-900">Neighborhood Connect</div>
+          <div className="text-2xl font-bold text-cyan-900 hover:text-cyan-800 transition">
+            Neighborhood Connect
+          </div>
         </Link>
+
         <div className="flex items-center space-x-4 relative">
           {/* Notifications */}
-          <button className="text-cyan-900 hover:text-cyan-800 text-xl">
+          <button className="relative text-cyan-900 hover:text-cyan-800 text-xl transition">
             <FaBell />
+            <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold px-1 rounded-full animate-pulse">3</span>
           </button>
 
           {/* User Dropdown */}
           <div className="relative" ref={dropdownRef}>
             <button
               onClick={() => setDropdownOpen(!dropdownOpen)}
-              className="w-10 h-10 bg-cyan-800 text-white rounded-full flex items-center justify-center text-lg focus:outline-none"
+              className="w-10 h-10 bg-cyan-800 text-white rounded-full flex items-center justify-center text-lg shadow hover:shadow-lg transition"
             >
               {user ? getInitial(user.username) : "?"}
             </button>
 
             {dropdownOpen && (
-              <div className="absolute right-0 mt-2 w-48 text-cyan-900 bg-white border border-gray-200 shadow-lg rounded-lg z-10">
+              <div className="absolute right-0 mt-2 w-48 text-cyan-900 bg-white border border-gray-200 shadow-xl rounded-lg z-10 transition transform scale-95 origin-top animate-scale-up">
                 <button
                   onClick={() => {
                     setDropdownOpen(false);
@@ -69,19 +71,9 @@ const Navbar = () => {
                   View Profile
                 </button>
 
-                 <div className="px-4 py-2 border-t border-gray-100 dark:border-gray-700">
+                <div className="px-4 py-2 border-t border-gray-100">
                   <DarkModeToggle />
                 </div>
-
-                {/* <button
-                  onClick={() => {
-                    setDropdownOpen(false);
-                    <DarkModeToggle />
-                  }}
-                  className="w-full text-left px-4 py-2 hover:bg-cyan-50 text-cyan-900 text-sm"
-                >
-                  Dark Mode
-                </button> */}
 
                 <button
                   onClick={handleLogout}

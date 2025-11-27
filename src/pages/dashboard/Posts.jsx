@@ -17,7 +17,7 @@ const Posts = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-
+  // Fetch posts
   useEffect(() => {
     if (!token) {
       setError("You are not authorized.");
@@ -31,13 +31,14 @@ const Posts = () => {
           headers: { Authorization: `Bearer ${token}` },
         });
 
+        // Ensure user and user_id exist for proper display and edit/delete checks
         const data = (res.data || []).map((p) => ({
           ...p,
-          user: p.user || user.name,
-          user_id: p.user_id || user.id,
+          user: p.user || "Guest",
+          user_id: p.user_id?.toString() || "guest",
           comments: (p.comments || []).map((c) => ({
             ...c,
-            user: c.user || user.name,
+            user: c.user || "Guest",
           })),
         }));
 
@@ -51,7 +52,7 @@ const Posts = () => {
     };
 
     fetchPosts();
-  }, [token, user.name, user.id]);
+  }, [token]);
 
   // Create a new post
   const handleAddPost = async () => {
@@ -68,7 +69,7 @@ const Posts = () => {
         {
           ...res.data,
           user: user.name,
-          user_id: user.id,
+          user_id: user.id.toString(),
           comments: [],
         },
         ...posts,
@@ -80,6 +81,7 @@ const Posts = () => {
     }
   };
 
+  // Like a post
   const handleLike = async (id) => {
     try {
       const res = await axios.post(
@@ -118,8 +120,10 @@ const Posts = () => {
     }
   };
 
+  // Delete post with confirmation
   const handleDeletePost = async (postId) => {
-    if (!window.confirm("Are you sure you want to delete this post?")) return;
+    const confirmed = window.confirm("Are you sure you want to delete this post?");
+    if (!confirmed) return;
 
     try {
       await axios.delete(`http://127.0.0.1:8000/api/posts/${postId}/`, {
@@ -132,6 +136,7 @@ const Posts = () => {
     }
   };
 
+  // Edit post
   const handleEditPost = (post) => {
     setEditingPostId(post.id);
     setEditText(post.message);
@@ -225,7 +230,7 @@ const Posts = () => {
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-3">
                     <div className="bg-cyan-100 text-cyan-800 font-bold w-9 h-9 flex items-center justify-center rounded-full uppercase">
-                      {post.user ? post.user[0] : "?"}
+                      {post.user?.[0] || "?"}
                     </div>
                     <h3 className="font-semibold text-cyan-800">{post.user}</h3>
                   </div>
@@ -278,7 +283,8 @@ const Posts = () => {
                       <MessageSquare size={16} /> {post.comments?.length || 0}
                     </button>
 
-                    {(user.id === post.user_id || user.isAdmin) && (
+                    {/* Edit/Delete only for owner or admin */}
+                    {(user.id.toString() === post.user_id.toString() || user.isAdmin) && (
                       <>
                         <button
                           onClick={() => handleEditPost(post)}
@@ -316,7 +322,7 @@ const Posts = () => {
                           className="flex items-start gap-3 bg-white/70 rounded-2xl p-3 border border-cyan-100"
                         >
                           <div className="bg-cyan-100 text-cyan-800 font-bold w-7 h-7 flex items-center justify-center rounded-full uppercase">
-                            {c.user ? c.user[0] : "?"}
+                            {c.user?.[0] || "?"}
                           </div>
                           <div>
                             <p className="text-sm font-semibold text-cyan-800">{c.user}</p>
@@ -354,7 +360,6 @@ const Posts = () => {
           ))}
         </AnimatePresence>
       </div>
-
     </div>
   );
 };

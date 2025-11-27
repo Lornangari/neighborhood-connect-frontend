@@ -1,6 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useLocation } from 'react-router-dom';
 import Home from "./pages/Home";
+import About from "./pages/About"; 
+import Notifications from "./pages/Notifications";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 
@@ -39,8 +41,11 @@ function MainLayout() {
 
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/notifications" element={<Notifications />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+
         
 
 
